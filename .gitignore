@@ -6,3 +6,6 @@ build
 
 # Ignore VSCode
 .vscode
+
+# Ignore generated list
+app\links.txt
