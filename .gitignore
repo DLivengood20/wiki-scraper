@@ -8,4 +8,7 @@ build
 .vscode
 
 # Ignore generated list
-*\links.txt
+app/links.txt
+
+# Ignore Cache
+app/bin
