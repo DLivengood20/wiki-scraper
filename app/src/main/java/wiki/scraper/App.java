@@ -81,21 +81,27 @@ public class App {
             System.out.println(e.getMessage());
         }
 
-        nextLink = new App().scrapeHTML("https://en.wikipedia.org/wiki/Special:Random");
+        // startLink grabs the random URL generated from wikipedia's random function
+        String startLink = getDocument("https://en.wikipedia.org/wiki/Special:Random").location();
+        nextLink = new App().scrapeHTML(startLink);
+        int cropStart = startLink.indexOf("/wiki/");
+        startLink = startLink.substring(cropStart);
+        if (out != null) {
+            out.println(startLink);
 
-        // TODO: Add and Print initial article's url
-        if (out != null && nextLink != null) {
-            links.add(nextLink);
-            out.println(nextLink);
-            while (!done) {
-                nextLink = new App().scrapeHTML("https://en.wikipedia.org" + nextLink);
+            if (nextLink != null) {
+                links.add(nextLink);
+                out.println(nextLink);
+                while (!done) {
+                    nextLink = new App().scrapeHTML("https://en.wikipedia.org" + nextLink);
 
-                if (!links.contains(nextLink)) {
-                    links.add(nextLink);
-                    out.println(nextLink);
-                } else {
-                    done = true;
-                    out.println(nextLink);
+                    if (!links.contains(nextLink)) {
+                        links.add(nextLink);
+                        out.println(nextLink);
+                    } else {
+                        done = true;
+                        out.println(nextLink);
+                    }
                 }
             }
             out.close();
