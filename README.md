@@ -17,7 +17,7 @@ This app finds a wikipedia article using wikipedia's random url. The app then fo
 	- To run, use gradle command `gradle run` from within cloned repository.
 	
 ## Use
-Run `gradle run` from the cloned repository. The app will find a random wikipedia article via the url `https://en.wikipedia.org/wiki/Special:Random` and follow the first link found in the article's main content. The app then keeps following and recording first links until a loop is detected. The recorded links can be found in the file `/app/links.txt`. This file is overridden everytime the app is run.
+Run `gradle run` from the cloned repository. The app will ask for a wikipedia article URL. The entered URL will then follow the first link found in the article's main content. If no URL is entered, then a random one is found via the url `https://en.wikipedia.org/wiki/Special:Random`. The app then keeps following and recording first links until a loop is detected. The recorded links can be found in the file `/app/links.txt`. This file is overridden everytime the app is run.
 
 ## Findings
 With current link exceptions, most articles end in a loop of 11 articles:
