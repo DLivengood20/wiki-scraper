@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -71,9 +72,11 @@ public class App {
 
     public static void main(String[] args) {
         PrintWriter out = null;
+        String startLink = null;
         String nextLink = null;
         List<String> links = new ArrayList<>();
         Boolean done = false;
+        Scanner in = new Scanner(System.in);
 
         try {
             out = new PrintWriter("links.txt");
@@ -81,8 +84,17 @@ public class App {
             System.out.println(e.getMessage());
         }
 
-        // startLink grabs the random URL generated from wikipedia's random function
-        String startLink = getDocument("https://en.wikipedia.org/wiki/Special:Random").location();
+        System.out.println("Enter a wikipedia url or leave blank for a random url");
+        String userInput = in.nextLine();
+
+        if (userInput.length() == 0) {
+            // startLink grabs the random URL generated from wikipedia's random function
+            startLink = getDocument("https://en.wikipedia.org/wiki/Special:Random").location();
+        } else {
+            startLink = userInput;
+        }
+        in.close();
+
         nextLink = new App().scrapeHTML(startLink);
         int cropStart = startLink.indexOf("/wiki/");
         startLink = startLink.substring(cropStart);
@@ -97,11 +109,10 @@ public class App {
 
                     if (!links.contains(nextLink)) {
                         links.add(nextLink);
-                        out.println(nextLink);
                     } else {
                         done = true;
-                        out.println(nextLink);
                     }
+                    out.println(nextLink);
                 }
             }
             out.close();
