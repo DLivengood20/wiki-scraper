@@ -10,6 +10,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class App {
 
@@ -20,6 +21,7 @@ public class App {
             document = conn.get();
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            System.exit(0);
         }
         return document;
     }
@@ -29,6 +31,9 @@ public class App {
     // If exception is found, finds next link in element
     // Returns cropped link url ex: /wiki/foobar
     public String findFirstLink(String scrapedHtml) {
+        if (!scrapedHtml.contains("href=")) {
+            return null;
+        }
         int linkIndex = scrapedHtml.indexOf("href=\"") + 6;
         scrapedHtml = scrapedHtml.substring(linkIndex);
         int linkEnd = scrapedHtml.indexOf("\"");
@@ -51,7 +56,6 @@ public class App {
             scrapedHtml = scrapedHtml.substring(linkEnd);
             return findFirstLink(scrapedHtml);
         }
-
         return foundLink;
     }
 
@@ -59,14 +63,27 @@ public class App {
     // Searches the main content for the first <p> that contains a link
     // Sends the found <p> to findFirstLink and returns its results
     public String scrapeHTML(String url) {
+        Elements pElements = null;
+
         Element htmlElement = getDocument(url).getElementById("mw-content-text");
+        if (htmlElement != null) {
+            pElements = htmlElement.getElementsByTag("p");
+        }
         String scrape = "";
+        Boolean linkIsGood = false;
         int i = 0;
-        while (!scrape.contains("href") && htmlElement != null) {
-            scrape = htmlElement.getElementsByTag("p").get(i).html();
+        while (pElements != null && !linkIsGood) {
+            if (!pElements.isEmpty()) {
+                scrape = pElements.get(i).html();
+            } else {
+                System.out.println("No <p> found");
+                System.exit(0);
+            }
+            if (findFirstLink(scrape) != null) {
+                linkIsGood = true;
+            }
             i++;
         }
-
         return findFirstLink(scrape);
     }
 
@@ -90,8 +107,11 @@ public class App {
         if (userInput.length() == 0) {
             // startLink grabs the random URL generated from wikipedia's random function
             startLink = getDocument("https://en.wikipedia.org/wiki/Special:Random").location();
-        } else {
+        } else if (userInput.contains("https://en.wikipedia.org/wiki/")) {
             startLink = userInput;
+        } else {
+            System.out.println("Invalid URL entered\nGoodbye");
+            System.exit(0);
         }
         in.close();
 
