@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'wiki.scraper.App'
+    mainClass = 'wiki.scraper.FirstLinkFollower'
 }
 
 tasks.named('test') {

@@ -12,7 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class App {
+public class FirstLinkFollower {
 
     public static Document getDocument(String url) {
         Connection conn = Jsoup.connect(url);
@@ -115,7 +115,7 @@ public class App {
         }
         in.close();
 
-        nextLink = new App().scrapeHTML(startLink);
+        nextLink = new FirstLinkFollower().scrapeHTML(startLink);
         int cropStart = startLink.indexOf("/wiki/");
         startLink = startLink.substring(cropStart);
         if (out != null) {
@@ -125,7 +125,7 @@ public class App {
                 links.add(nextLink);
                 out.println(nextLink);
                 while (!done) {
-                    nextLink = new App().scrapeHTML("https://en.wikipedia.org" + nextLink);
+                    nextLink = new FirstLinkFollower().scrapeHTML("https://en.wikipedia.org" + nextLink);
 
                     if (!links.contains(nextLink)) {
                         links.add(nextLink);
