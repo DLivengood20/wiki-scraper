@@ -34,7 +34,7 @@ public class FirstLinkFollower {
         }
         in.close();
 
-        nextLink = new WikiHandler().findAllP(startLink);
+        nextLink = new WikiHandler().findFirstLinkInWiki(startLink);
         int urlStart = startLink.indexOf("/wiki/");
         startLink = startLink.substring(urlStart);
         if (out != null) {
@@ -44,7 +44,7 @@ public class FirstLinkFollower {
                 links.add(nextLink);
                 out.println(nextLink);
                 while (!done) {
-                    nextLink = new WikiHandler().findAllP("https://en.wikipedia.org" + nextLink);
+                    nextLink = new WikiHandler().findFirstLinkInWiki("https://en.wikipedia.org" + nextLink);
 
                     if (!links.contains(nextLink)) {
                         links.add(nextLink);

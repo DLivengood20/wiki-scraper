@@ -27,7 +27,7 @@ public class WikiHandler {
     // If no link is found in element, returns null
     // If exception is found, finds next link in element
     // Returns cropped link url ex: /wiki/foobar
-    public String findFirstLink(String scrapedHtml) {
+    public String findFirstLinkInP(String scrapedHtml) {
         if (!scrapedHtml.contains("href=")) {
             return null;
         }
@@ -39,7 +39,7 @@ public class WikiHandler {
         // Some links for citations start with #. We do not want these links
         if (scrapedHtml.substring(0, 1).equals("#")) {
             scrapedHtml = scrapedHtml.substring(linkEnd);
-            return findFirstLink(scrapedHtml);
+            return findFirstLinkInP(scrapedHtml);
         }
 
         foundLink = scrapedHtml.substring(0, linkEnd);
@@ -51,7 +51,7 @@ public class WikiHandler {
                 || foundLink.contains("upload.wikimedia.org")
                 || foundLink.contains("wiktionary.org")) {
             scrapedHtml = scrapedHtml.substring(linkEnd);
-            return findFirstLink(scrapedHtml);
+            return findFirstLinkInP(scrapedHtml);
         }
         return foundLink;
     }
@@ -59,7 +59,7 @@ public class WikiHandler {
     // Expects a wikipedia article url
     // Searches the main content for the first <p> that contains a link
     // Sends the found <p> to findFirstLink and returns its results
-    public String findAllP(String url) {
+    public String findFirstLinkInWiki(String url) {
         Elements pElements = null;
 
         Element htmlElement = getDocument(url).getElementById("mw-content-text");
@@ -76,11 +76,11 @@ public class WikiHandler {
                 System.out.println("No <p> found");
                 System.exit(0);
             }
-            if (findFirstLink(foundP) != null) {
+            if (findFirstLinkInP(foundP) != null) {
                 linkIsGood = true;
             }
             i++;
         }
-        return findFirstLink(foundP);
+        return findFirstLinkInP(foundP);
     }
 }
