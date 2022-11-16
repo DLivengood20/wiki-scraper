@@ -20,16 +20,24 @@ This app finds a wikipedia article using wikipedia's random url. The app then fo
 Run `gradle run` from the cloned repository. The app will ask for a wikipedia article URL. The entered URL will then follow the first link found in the article's main content. If no URL is entered, then a random one is found via the url `https://en.wikipedia.org/wiki/Special:Random`. The app then keeps following and recording first links until a loop is detected. The recorded links can be found in the file `/app/links.txt`. This file is overridden everytime the app is run.
 
 ## Findings
-With current link exceptions, most articles end in a loop of 11 articles:
-- Religion
-- Social_system
-- Sociology
-- Social_science
-- Branches_of_science
+With current link exceptions, most articles end in a loop of 20 articles:
 - Science
 - Scientific_method
 - Empirical_evidence
 - Proposition
 - Logic
-- Religious_philosophy
-
+- Reason
+- Consciousness
+- Sentience
+- Feeling
+- Subjectivity
+- Philosophy
+- Existence
+- Reality
+- System
+- Interaction
+- Causality
+- Event_(relativity)
+- Physics
+- Natural_science
+- Branches_of_science
