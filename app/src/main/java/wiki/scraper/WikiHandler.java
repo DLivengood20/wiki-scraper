@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class WikiHandler {
@@ -60,12 +59,7 @@ public class WikiHandler {
     // Searches the main content for the first <p> that contains a link
     // Sends the found <p> to findFirstLink and returns its results
     public String findFirstLinkInWiki(String url) {
-        Elements pElements = null;
-
-        Element htmlElement = getDocument(url).getElementById("mw-content-text");
-        if (htmlElement != null) {
-            pElements = htmlElement.getElementsByTag("p");
-        }
+        Elements pElements = getDocument(url).select("div.mw-parser-output > p");
         String foundP = "";
         Boolean linkIsGood = false;
         int i = 0;
